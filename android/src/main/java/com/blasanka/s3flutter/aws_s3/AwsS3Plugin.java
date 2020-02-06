@@ -58,6 +58,8 @@ public class AwsS3Plugin implements FlutterPlugin, MethodCallHandler, EventChann
     public static void registerWith(PluginRegistry.Registrar registrar) {
         final MethodChannel channel = new MethodChannel(registrar.messenger(), "com.blasanka.s3Flutter/aws_s3");
         channel.setMethodCallHandler(new AwsS3Plugin());
+        final EventChannel eventChannel = new EventChannel(registrar.messenger(), "com.blasanka.s3Flutter/uploading_status");
+        eventChannel.setStreamHandler(new AwsS3Plugin());
     }
 
     @Override
