@@ -38,6 +38,8 @@ class AwsS3 {
     args.putIfAbsent("region", () => region.toString());
     args.putIfAbsent("bucketName", () => bucketName);
 
+    debugPrint("AwsS3Plugin: file path is: ${file.path}");
+
     final String result = await _channel.invokeMethod('uploadToS3', args);
 
     return result;

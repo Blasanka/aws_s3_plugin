@@ -33,6 +33,8 @@ import io.flutter.plugin.common.PluginRegistry;
 public class AwsS3Plugin implements FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler {
 
     private static final String TAG = "awsS3Plugin";
+    private static final String CHANNEL = "com.blasanka.s3Flutter/aws_s3";
+    private static final String STREAM = "com.blasanka.s3Flutter/uploading_status";
     private String filePath;
     private String awsFolder;
     private String fileNameWithExt;
@@ -40,7 +42,6 @@ public class AwsS3Plugin implements FlutterPlugin, MethodCallHandler, EventChann
     private MethodChannel.Result parentResult;
     private ClientConfiguration clientConfiguration;
     private TransferUtility transferUtility1;
-    private Regions region;
     private String bucketName;
     private Context mContext;
     private EventChannel eventChannel;
@@ -56,9 +57,12 @@ public class AwsS3Plugin implements FlutterPlugin, MethodCallHandler, EventChann
     }
 
     public static void registerWith(PluginRegistry.Registrar registrar) {
-        final MethodChannel channel = new MethodChannel(registrar.messenger(), "com.blasanka.s3Flutter/aws_s3");
+        final MethodChannel channel = new MethodChannel(registrar.messenger(), CHANNEL);
+        final EventChannel eventChannel = new EventChannel(registrar.messenger(), STREAM);
+
+        Log.d(TAG, "registerWith: channel and event");
+
         channel.setMethodCallHandler(new AwsS3Plugin());
-        final EventChannel eventChannel = new EventChannel(registrar.messenger(), "com.blasanka.s3Flutter/uploading_status");
         eventChannel.setStreamHandler(new AwsS3Plugin());
     }
 
@@ -69,10 +73,12 @@ public class AwsS3Plugin implements FlutterPlugin, MethodCallHandler, EventChann
 
     private void whenAttachedToEngine(Context applicationContext, BinaryMessenger messenger) {
         this.mContext = applicationContext;
-        methodChannel = new MethodChannel(messenger, "com.blasanka.s3Flutter/aws_s3");
-        eventChannel = new EventChannel(messenger, "com.blasanka.s3Flutter/uploading_status");
+        methodChannel = new MethodChannel(messenger, CHANNEL);
+        eventChannel = new EventChannel(messenger, STREAM);
         eventChannel.setStreamHandler(this);
         methodChannel.setMethodCallHandler(this);
+
+        Log.d(TAG, "whenAttachedToEngine: method and engine");
     }
 
 
@@ -83,6 +89,8 @@ public class AwsS3Plugin implements FlutterPlugin, MethodCallHandler, EventChann
         methodChannel = null;
         eventChannel.setStreamHandler(null);
         eventChannel = null;
+
+        Log.d(TAG, "onDetachedFromEngine: method and event");
     }
 
     @Override
@@ -90,6 +98,9 @@ public class AwsS3Plugin implements FlutterPlugin, MethodCallHandler, EventChann
         if (call.method.equals("uploadToS3")) {
             parentResult = result;
             filePath = call.argument("filePath");
+
+            Log.d(TAG, "onMethodCall: file path is: " + filePath);
+
             awsFolder = call.argument("awsFolder");
             fileNameWithExt = call.argument("fileNameWithExt");
             String poolId = call.argument("poolId");
@@ -99,7 +110,7 @@ public class AwsS3Plugin implements FlutterPlugin, MethodCallHandler, EventChann
             assert reg != null;
             try {
                 String regionName = reg.replaceFirst("Regions.", "");
-                region = Regions.valueOf(regionName);
+                Regions region = Regions.valueOf(regionName);
 
                 clientConfiguration.setConnectionTimeout(250000);
                 clientConfiguration.setSocketTimeout(250000);

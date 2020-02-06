@@ -1,3 +1,7 @@
+### 0.1.0+hotfix.2
+
+* Context exception fixed with documentation update.
+
 ### 0.1.0+hotfix.1
 
 * Upload percentage not receiving bug fixed.
