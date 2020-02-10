@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:aws_s3/aws_s3.dart';
@@ -36,6 +37,26 @@ class CreateMessageState extends State<CreateMessage> {
 
   //to ensure image is uploading from the native android
   bool isFileUploading = false;
+
+  String poolId;
+  String awsFolderPath;
+  String bucketName;
+
+  @override
+  void initState() {
+    super.initState();
+    readEnv();
+  }
+
+  void readEnv() async {
+    final str = await rootBundle.loadString(".env");
+    if (str.isNotEmpty) {
+      final decoded = jsonDecode(str);
+      poolId = decoded["poolId"];
+      awsFolderPath = decoded["awsFolderPath"];
+      bucketName = decoded["bucketName"];
+    }
+  }
 
   // Pick image
   pickerModal(ctx) {
@@ -276,12 +297,12 @@ class CreateMessageState extends State<CreateMessage> {
           "$number$extension\_${DateTime.now().millisecondsSinceEpoch}.$extension";
 
       AwsS3 awsS3 = AwsS3(
-          awsFolderPath: "your aws folder path",
+          awsFolderPath: awsFolderPath,
           file: selectedFile,
           fileNameWithExt: fileName,
-          poolId: "your_aws_pool_id",
+          poolId: poolId,
           region: Regions.AP_SOUTHEAST_2,
-          bucketName: "your bucket name to upload");
+          bucketName: bucketName);
 
       setState(() => isFileUploading = true);
       displayUploadDialog(awsS3);
@@ -337,43 +358,8 @@ class CreateMessageState extends State<CreateMessage> {
     );
   }
 
-//  Future<String> _uploadIosImage(File file, int index) async {
-//    var awsPathSplited = awsFolder['folder'].toString();
-//    String awsPath = awsPathSplited;
-//
-//    String fileName = file.path.split("/").last;
-//    String fileType = path.basename(file.path).split(".").last;
-//
-//    Map<String, dynamic> args = <String, dynamic>{};
-//    args.putIfAbsent("path", () => file.path);
-//    args.putIfAbsent("fileName", () => fileName);
-//    args.putIfAbsent("aws_folder", () => awsPath);
-//    args.putIfAbsent("client_id", () => clientId);
-//    args.putIfAbsent("file_type", () => fileType);
-//
-//    String result;
-//
-//    if (result == null) {
-//      setState(() => isImageUploading = true);
-//      displayUploadDialog(awsS3);
-//
-//      try {
-//        print("Flutter: $args");
-//        result = await platform.invokeMethod('sendImage', args);
-//      } on PlatformException catch (e) {
-//        print("Failed :'${e.message}'.");
-//      }
-//    }
-//    Navigator.of(context).pop();
-//    return result;
-//  }
-
   Future<void> submitMessage() async {
-    if (Platform.isAndroid) {
-      await _uploadImage(selectedFile, 1);
-    } else if (Platform.isIOS) {
-//      await _uploadIosImage(selectedFile, 1);
-    }
+    await _uploadImage(selectedFile, 1);
 
     debugPrint("Subject: " + _textController1.text);
     debugPrint("Message: " + _textController2.text);

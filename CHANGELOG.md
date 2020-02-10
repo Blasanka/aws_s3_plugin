@@ -1,4 +1,4 @@
-### 0.1.0+hotfix.2
+### 0.1.0+hotfix.3
 
 * Context exception fixed with documentation update.
 

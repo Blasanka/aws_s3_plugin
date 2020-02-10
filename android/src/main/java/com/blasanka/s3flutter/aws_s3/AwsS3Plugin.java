@@ -18,7 +18,9 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 
 import java.io.File;
 
+import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
+import io.flutter.embedding.engine.plugins.shim.ShimPluginRegistry;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.MethodCall;
@@ -38,7 +40,6 @@ public class AwsS3Plugin implements FlutterPlugin, MethodCallHandler, EventChann
     private String filePath;
     private String awsFolder;
     private String fileNameWithExt;
-    private String exception;
     private MethodChannel.Result parentResult;
     private ClientConfiguration clientConfiguration;
     private TransferUtility transferUtility1;
@@ -52,18 +53,12 @@ public class AwsS3Plugin implements FlutterPlugin, MethodCallHandler, EventChann
         filePath = "";
         awsFolder = "";
         fileNameWithExt = "";
-        exception = "";
         clientConfiguration = new ClientConfiguration();
     }
 
     public static void registerWith(PluginRegistry.Registrar registrar) {
-        final MethodChannel channel = new MethodChannel(registrar.messenger(), CHANNEL);
-        final EventChannel eventChannel = new EventChannel(registrar.messenger(), STREAM);
-
-        Log.d(TAG, "registerWith: channel and event");
-
-        channel.setMethodCallHandler(new AwsS3Plugin());
-        eventChannel.setStreamHandler(new AwsS3Plugin());
+        AwsS3Plugin s3Plugin = new AwsS3Plugin();
+        s3Plugin.whenAttachedToEngine(registrar.context(), registrar.messenger());
     }
 
     @Override
@@ -78,7 +73,7 @@ public class AwsS3Plugin implements FlutterPlugin, MethodCallHandler, EventChann
         eventChannel.setStreamHandler(this);
         methodChannel.setMethodCallHandler(this);
 
-        Log.d(TAG, "whenAttachedToEngine: method and engine");
+        Log.d(TAG, "whenAttachedToEngine");
     }
 
 
@@ -90,7 +85,7 @@ public class AwsS3Plugin implements FlutterPlugin, MethodCallHandler, EventChann
         eventChannel.setStreamHandler(null);
         eventChannel = null;
 
-        Log.d(TAG, "onDetachedFromEngine: method and event");
+        Log.d(TAG, "onDetachedFromEngine");
     }
 
     @Override
@@ -99,7 +94,7 @@ public class AwsS3Plugin implements FlutterPlugin, MethodCallHandler, EventChann
             parentResult = result;
             filePath = call.argument("filePath");
 
-            Log.d(TAG, "onMethodCall: file path is: " + filePath);
+            Log.d(TAG, "onMethodCall: " + filePath);
 
             awsFolder = call.argument("awsFolder");
             fileNameWithExt = call.argument("fileNameWithExt");
@@ -118,7 +113,7 @@ public class AwsS3Plugin implements FlutterPlugin, MethodCallHandler, EventChann
                 transferUtility1 = TransferUtility.builder().context(mContext).awsConfiguration(AWSMobileClient.getInstance().getConfiguration()).s3Client(new AmazonS3Client(credentialsProvider)).build();
                 sendImage();
             } catch (Exception e) {
-                Log.e(TAG, "onMethodCall: Region exception: " + e.getMessage());
+                Log.e(TAG, "onMethodCall: exception: " + e.getMessage());
             }
         } else {
             result.notImplemented();
@@ -158,19 +153,19 @@ public class AwsS3Plugin implements FlutterPlugin, MethodCallHandler, EventChann
         public void onStateChanged(int id, TransferState state) {
             switch (state) {
                 case COMPLETED:
-                    Log.d(TAG, "onStateChanged: \"COMPLETED, file available at: " + fileNameWithExt);
+                    Log.d(TAG, "onStateChanged: \"COMPLETED, " + fileNameWithExt);
                     parentResult.success(fileNameWithExt);
                     break;
                 case WAITING:
-                    Log.d(TAG, "onStateChanged: \"WAITING, file available at: " + fileNameWithExt);
+                    Log.d(TAG, "onStateChanged: \"WAITING, " + fileNameWithExt);
                     break;
                 case FAILED:
                     invalidateEventSink();
-                    Log.d(TAG, "onStateChanged: \"FAILED, file available at: " + fileNameWithExt);
+                    Log.d(TAG, "onStateChanged: \"FAILED, " + fileNameWithExt);
                     parentResult.success(null);
                     break;
                 default:
-                    Log.d(TAG, "onStateChanged: \"SOMETHING ELSE, file available at: " + fileNameWithExt);
+                    Log.d(TAG, "onStateChanged: \"SOMETHING ELSE, " + fileNameWithExt);
                     break;
             }
         }
@@ -189,8 +184,7 @@ public class AwsS3Plugin implements FlutterPlugin, MethodCallHandler, EventChann
 
         @Override
         public void onError(int id, Exception ex) {
-            exception = ex.toString();
-            System.out.println("onError: " + exception);
+            Log.e(TAG, "onError: " + ex);
             invalidateEventSink();
         }
     }
