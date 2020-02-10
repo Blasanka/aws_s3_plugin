@@ -1,10 +1,11 @@
+### 0.1.1
+
+* IOS support for uploading single file added.
+
 ### 0.1.0+hotfix.3
 
-* Context exception fixed with documentation update.
-
-### 0.1.0+hotfix.1
-
 * Upload percentage not receiving bug fixed.
+* Context exception fixed with documentation update.
 
 ### 0.1.0
 

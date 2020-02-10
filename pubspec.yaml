@@ -1,6 +1,6 @@
 name: aws_s3
 description: This package for uploading any file(s) to AWS S3 with upload percentage.
-version: 0.1.0+hotfix.3
+version: 0.1.1
 #author:
 homepage: 'https://github.com/blasanka/aws_s3_plugin'
 

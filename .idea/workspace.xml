@@ -2,17 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b96ce8fa-9bef-4aab-88e1-136e3663bad6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/blasanka/s3flutter/aws_s3/AwsS3Plugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/blasanka/s3flutter/aws_s3/AwsS3Plugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/SwiftAwsS3Plugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SwiftAwsS3Plugin.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/aws_s3.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/ios/aws_s3.podspec" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/aws_s3_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/aws_s3_test.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +51,22 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
+    <state width="1323" height="171" key="GridCell.Tab.0.bottom" timestamp="1581317628966">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="171" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1581317628966" />
+    <state width="1323" height="171" key="GridCell.Tab.0.center" timestamp="1581317628966">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="171" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1581317628966" />
+    <state width="1323" height="171" key="GridCell.Tab.0.left" timestamp="1581317628966">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="171" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1581317628966" />
+    <state width="1323" height="171" key="GridCell.Tab.0.right" timestamp="1581317628966">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="171" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1581317628966" />
     <state x="391" y="192" key="com.intellij.ide.util.TipDialog" timestamp="1581315571304">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
