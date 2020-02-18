@@ -121,7 +121,10 @@ public class AwsS3Plugin implements FlutterPlugin, MethodCallHandler, EventChann
     }
 
     private void sendImage() {
-        String awsPath = awsFolder + "/" + fileNameWithExt;
+        String awsPath = fileNameWithExt;
+        if (awsFolder != null && !awsFolder.equals("")) {
+            awsPath = awsFolder + "/" + fileNameWithExt;
+        }
         TransferObserver transferObserver1 = transferUtility1
                 .upload(bucketName, awsPath, new File(filePath), CannedAccessControlList.PublicRead);
 

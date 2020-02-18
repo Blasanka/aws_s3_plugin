@@ -1,3 +1,8 @@
+### 0.1.1+hotfix.1
+
+* IOS upload failed bug fixed.
+* IOS upload percentage not updating bug fixed.
+
 ### 0.1.1
 
 * IOS support for uploading single file added.

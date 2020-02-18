@@ -9,13 +9,6 @@ Check the package implementation on github: https://github.com/blasanka/aws_s3
 
 Contributors are highly welcome.
 
-Make sure to add `<service>` to AndroidManifest.xml in android -> src -> main:
-
-```
-<service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
-         android:enabled="true" />
-```
-
 To use this package, you have to create a instance of `AwsS3` with parameters like below code snippet:
 
 ```
