@@ -88,11 +88,10 @@ public class SwiftAwsS3Plugin: NSObject, FlutterPlugin {
        if let filePath = argsMap["filePath"], let awsFolder = argsMap["awsFolder"],
            let fileNameWithExt = argsMap["fileNameWithExt"], let poolId = argsMap["poolId"],
            let bucketName = argsMap["bucketName"], let region = argsMap["region"] {
-
-           let credentialsProvider = AWSCognitoCredentialsProvider(regionType:
-               decideRegion(region as! String), identityPoolId: poolId as! String)
-           let configuration = AWSServiceConfiguration(region: decideRegion(region as! String),
-                                                       credentialsProvider: credentialsProvider)
+            
+           let convertedRegion = decideRegion(region as! String)
+           let credentialsProvider = AWSCognitoCredentialsProvider(regionType: convertedRegion, identityPoolId: poolId as! String)
+           let configuration = AWSServiceConfiguration(region: convertedRegion, credentialsProvider: credentialsProvider)
 
            AWSServiceManager.default().defaultServiceConfiguration = configuration
            var imageAmazonUrl = ""
@@ -100,7 +99,14 @@ public class SwiftAwsS3Plugin: NSObject, FlutterPlugin {
            let fileType: String = (fileNameWithExt as AnyObject).components(separatedBy: ".")[1]
            let uploadRequest = AWSS3TransferManagerUploadRequest()!
            uploadRequest.body = url as URL
-           uploadRequest.key = "\(awsFolder)_\(fileNameWithExt as! String)"
+
+            let folder = awsFolder as? String
+            if (folder != nil || folder != "") {
+                uploadRequest.key = "\(awsFolder)/\(fileNameWithExt as! String)"
+            } else {
+                uploadRequest.key = "\(fileNameWithExt as! String)"
+            }
+
            uploadRequest.bucket = bucketName as? String
            uploadRequest.contentType = "\(fileType)"
            uploadRequest.acl = .publicReadWrite
@@ -139,9 +145,8 @@ public class SwiftAwsS3Plugin: NSObject, FlutterPlugin {
                }
 
                if task.result != nil {
-                   imageAmazonUrl = "https://d212imxpbiy5j1.cloudfront.net/\(fileNameWithExt)"
-                   print("✅ Upload successed (\(imageAmazonUrl))")
-                   result(imageAmazonUrl)
+                   print("✅ Upload successed (\(fileNameWithExt))")
+                   result(fileNameWithExt)
                }
                return nil
            }
