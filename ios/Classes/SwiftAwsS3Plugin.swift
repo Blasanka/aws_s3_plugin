@@ -69,14 +69,14 @@ public class SwiftAwsS3Plugin: NSObject, FlutterPlugin {
            return AWSRegionType.CNNorthWest1
        case "EU_WEST_3":
            return AWSRegionType.EUWest3
-       case "US_GOV_EAST_1":
-           return AWSRegionType.USGovEast1
-       case "EU_NORTH_1":
-           return AWSRegionType.EUNorth1
-       case "AP_EAST_1":
-           return AWSRegionType.APEast1
-       case "ME_SOUTH_1":
-           return AWSRegionType.MESouth1
+    //    case "US_GOV_EAST_1":
+    //        return AWSRegionType.USGovEast1
+    //    case "EU_NORTH_1":
+    //        return AWSRegionType.EUNorth1
+    //    case "AP_EAST_1":
+    //        return AWSRegionType.APEast1
+    //    case "ME_SOUTH_1":
+    //        return AWSRegionType.MESouth1
        default:
            return AWSRegionType.Unknown
        }
@@ -107,7 +107,7 @@ public class SwiftAwsS3Plugin: NSObject, FlutterPlugin {
            uploadRequest.uploadProgress = { (bytesSent, totalBytesSent,
                totalBytesExpectedToSend) -> Void in
                DispatchQueue.main.async(execute: {
-                let uploadedPercentage = Double(totalBytesSent) / Double(bytesSent) + 0.1
+                let uploadedPercentage = Double(totalBytesSent) / (Double(bytesSent) + 0.1)
                     print(Int64(uploadedPercentage))
                     self.events!(Int64(uploadedPercentage))
                })

@@ -1,8 +1,8 @@
 name: aws_s3
 description: This package for uploading any file(s) to AWS S3 with upload percentage.
-version: 0.1.1+hotfix.1
+version: 0.1.1+hotfix.2
 #author:
-homepage: 'https://github.com/blasanka/aws_s3_plugin'
+homepage: "https://github.com/blasanka/aws_s3_plugin"
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -27,7 +27,6 @@ flutter:
   plugin:
     androidPackage: com.blasanka.s3flutter.aws_s3
     pluginClass: AwsS3Plugin
-
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg
@@ -38,7 +37,6 @@ flutter:
   #
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
-
   # To add custom fonts to your plugin package, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
