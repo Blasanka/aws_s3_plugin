@@ -107,9 +107,9 @@ public class SwiftAwsS3Plugin: NSObject, FlutterPlugin {
            uploadRequest.uploadProgress = { (bytesSent, totalBytesSent,
                totalBytesExpectedToSend) -> Void in
                DispatchQueue.main.async(execute: {
-                let uploadedPercentage = Double(totalBytesSent) / (Double(bytesSent) + 0.1)
-                    print(Int64(uploadedPercentage))
-                    self.events!(Int64(uploadedPercentage))
+                let uploadedPercentage = Float(bytesSent) / Float(totalBytesSent) * 100
+                    print(Int(uploadedPercentage))
+                    self.events!(Int(uploadedPercentage))
                })
            }
            let transferManager = AWSS3TransferManager.default()
