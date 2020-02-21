@@ -99,25 +99,27 @@ public class SwiftAwsS3Plugin: NSObject, FlutterPlugin {
            let fileType: String = (fileNameWithExt as AnyObject).components(separatedBy: ".")[1]
            let uploadRequest = AWSS3TransferManagerUploadRequest()!
            uploadRequest.body = url as URL
-
-            let folder = awsFolder as? String
-            if (folder != nil || folder != "") {
-                uploadRequest.key = "\(awsFolder)/\(fileNameWithExt as! String)"
+        
+            let folder = awsFolder as! String
+            if (folder != nil && folder != "") {
+                uploadRequest.key = folder + "/" + (fileNameWithExt as! String)
             } else {
-                uploadRequest.key = "\(fileNameWithExt as! String)"
+                uploadRequest.key = (fileNameWithExt as! String)
             }
 
-           uploadRequest.bucket = bucketName as? String
-           uploadRequest.contentType = "\(fileType)"
-           uploadRequest.acl = .publicReadWrite
-           uploadRequest.uploadProgress = { (bytesSent, totalBytesSent,
-               totalBytesExpectedToSend) -> Void in
-               DispatchQueue.main.async(execute: {
-                let uploadedPercentage = Float(bytesSent) / Float(totalBytesSent) * 100
+          uploadRequest.bucket = bucketName as? String
+          uploadRequest.contentType = "\(fileType)"
+          uploadRequest.acl = .publicReadWrite
+          uploadRequest.uploadProgress = { (bytesSent, totalBytesSent,
+              totalBytesExpectedToSend) -> Void in
+              DispatchQueue.main.async(execute: {
+               let uploadedPercentage = Float(totalBytesSent) / (Float(bytesSent) + 0.1)
+                   print("byte current \(totalBytesSent) byte total \(bytesSent) percentage \(uploadedPercentage)")
                     print(Int(uploadedPercentage))
                     self.events!(Int(uploadedPercentage))
                })
            }
+
            let transferManager = AWSS3TransferManager.default()
            transferManager.upload(uploadRequest).continueWith { (task) -> AnyObject? in
                if let error = task.error as NSError? {

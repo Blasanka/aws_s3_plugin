@@ -1,3 +1,7 @@
+### 0.1.1+hotfix.3
+
+- Accuracy of the progrecess precentage improved.
+
 ### 0.1.1+hotfix.2
 
 - IOS Regions not found issue fixed.
