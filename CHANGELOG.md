@@ -1,6 +1,6 @@
 ### 0.1.1+hotfix.3
 
-- Accuracy of the progrecess precentage improved.
+- Accuracy of the progrecess percentage improved.
 
 ### 0.1.1+hotfix.2
 
