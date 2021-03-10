@@ -113,7 +113,7 @@ public class SwiftAwsS3Plugin: NSObject, FlutterPlugin {
           uploadRequest.uploadProgress = { (bytesSent, totalBytesSent,
               totalBytesExpectedToSend) -> Void in
               DispatchQueue.main.async(execute: {
-               let uploadedPercentage = Float(totalBytesSent) / (Float(bytesSent) + 0.1)
+            let uploadedPercentage = (Float(totalBytesSent) / (Float(totalBytesExpectedToSend)) * 100)
                    print("byte current \(totalBytesSent) byte total \(bytesSent) percentage \(uploadedPercentage)")
                     print(Int(uploadedPercentage))
                     self.events!(Int(uploadedPercentage))
